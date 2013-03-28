@@ -1,6 +1,11 @@
 '''
+
 Lovers
+
+exploring time and relationships through
+daily e-mail events
 Maoya Bassiouni (in progress)
+
 '''
 
 
@@ -18,8 +23,8 @@ class Db(object):
 
     def connect(self):
         try:
-            con = MySQLdb.connect('localhost', 'maoya', 'maoya_77', \
-            		'gmail', unix_socket='/tmp/mysql.sock')
+            con = MySQLdb.connect('localhost', 'maoya', '1234',
+                                  'gmail', unix_socket='/tmp/mysql.sock')
             con.autocommit(True)
         except MySQLdb.Error, e:
             print "Error %d: %s" % (e.args[0], e.args[1])
@@ -30,16 +35,16 @@ class Db(object):
     def make_email_time_series(self, start, end, email):
         cur = self.connect()
         sql = "SELECT date, length, 'DeepSkyBlue' \
-        		FROM `from` where from_email='{0}' \
-        		AND date BETWEEN '{1}' \
-        		AND '{2}' ".format(email, start, end)
+                FROM `from` WHERE from_email='{0}' \
+                AND date BETWEEN '{1}' \
+                AND '{2}' ".format(email, start, end)
         cur.execute(sql)
         from_data = cur.fetchall()
         if from_data != ():
             sql = "SELECT date, length, 'DeepPink' \
-            		FROM `to` where to_email='{0}' \
-            		AND date BETWEEN '{1}' \
-            		AND '{2}' ".format(email, start, end)
+                    FROM `to` WHERE to_email='{0}' \
+                    AND date BETWEEN '{1}' \
+                    AND '{2}' ".format(email, start, end)
             cur.execute(sql)
             to_data = cur.fetchall()
             if to_data != ():
@@ -86,11 +91,11 @@ class Visualize(object):
             fig.set_size_inches((end - start).days/2., 100)
             ax = fig.add_subplot(111)
             for x, y, c, l in zip(x_data, y_data, c_data, s_data):
-                ax.plot(x, y, marker='o', markerfacecolor=c, markeredgecolor='None', \
-                		markersize=777 * l, linestyle='', alpha=0.1)
+                ax.plot(x, y, marker='o', markerfacecolor=c, markeredgecolor='None',
+                        markersize=777 * l, linestyle='', alpha=0.1)
 
-            ax.set_xlim([start-timedelta(days=22), end+timedelta(days=22)])
-            ax.set_ylim([-60.* 60. * 10., 60.* 60. * 34.])
+            ax.set_xlim([start - timedelta(days=22), end+timedelta(days=22)])
+            ax.set_ylim([-60. * 60. * 10., 60. * 60. * 34.])
             plt.axis('off')
             pdf = PdfPages('/Users/maoya/Desktop/OOO/lovers/Lovers_{0}.pdf'.format(ind+1))
             pdf.savefig(fig)
@@ -101,17 +106,15 @@ if __name__ == '__main__':
 
     vz = Visualize()
 
-
 # test plot lovers................
     periods = [
-    		[datetime.strptime('20/07/2010', "%d/%m/%Y"), \
-     			datetime.strptime('26/01/2011', "%d/%m/%Y")],
-     		[datetime.strptime('27/01/2011', "%d/%m/%Y"), \
-     			datetime.strptime('27/08/2011', "%d/%m/%Y")],
-     		[datetime.strptime('28/08/2011', "%d/%m/%Y"), \
-     			datetime.strptime('04/07/2012', "%d/%m/%Y")],
-     		[datetime.strptime('5/07/2012', "%d/%m/%Y"), \
-     			datetime.strptime('20/03/2013', "%d/%m/%Y")]
+        [datetime.strptime('20/07/2010', "%d/%m/%Y"),
+            datetime.strptime('26/01/2011', "%d/%m/%Y")],
+        [datetime.strptime('27/01/2011', "%d/%m/%Y"),
+            datetime.strptime('27/08/2011', "%d/%m/%Y")],
+        [datetime.strptime('28/08/2011', "%d/%m/%Y"),
+            datetime.strptime('04/07/2012', "%d/%m/%Y")],
+        [datetime.strptime('5/07/2012', "%d/%m/%Y"),
+            datetime.strptime('20/03/2013', "%d/%m/%Y")]
     ]
-    
-    vz.lovers_plot('bemclaugh@gmail.com', periods)
+    vz.lovers_plot('XXXXX.com', periods)

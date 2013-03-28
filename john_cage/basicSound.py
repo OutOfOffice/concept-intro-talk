@@ -1,6 +1,11 @@
 '''
+
 Portrait of John Cage
+
+using a b&w image as a score for sounds
+
 Maoya Bassiouni (December 2011)
+
 '''
 
 
@@ -29,7 +34,7 @@ class Viz(object):
         return x
 
     def write_pixels_to_number_gradient(self, file, out_file):
-        f_out = open(out_file,'a')
+        f_out = open(out_file, 'a')
         image_array = self.buildArray(file)
         self.pixel_quantiles = scipy.stats.mstats.mquantiles(image_array, prob=self.quantiles)
         for i, line in enumerate(image_array):
@@ -74,17 +79,14 @@ class Sound(object):
 
 
 if __name__ == "__main__":
-    
+
     import os
     viz = Viz()
     sound = Sound()
-    
-    
-	directory = "/Users/maoya/Desktop/OOO/sounds"
-    image_file = os.path.joint(directory,"John_Cage.jpg")
-    out_file_txt = os.path.joint(directory,"number_gradient.txt")
-    out_file_wave = os.path.joint(directory,"john_cage.wav")
-    
+    directory = "/Users/maoya/Desktop/OOO/sounds"
+    image_file = os.path.joint(directory, "John_Cage.jpg")
+    out_file_txt = os.path.joint(directory, "number_gradient.txt")
+    out_file_wave = os.path.joint(directory, "john_cage.wav")
     note_length = 0.17
     viz.write_pixels_to_number_gradient(image_file, out_file_txt)
-    sound.write_wave_image(image_file, out_file_wave, note_length, rate=6400)
+    #sound.write_wave_image(image_file, out_file_wave, note_length, rate=6400)
